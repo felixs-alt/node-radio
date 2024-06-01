@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
             cb(null, 'upload/');
     },
     filename: (req, file, cb) => {
-      cb(null,"musidc.wav");
+      cb(null,"music.wav");
     }
   });
 
