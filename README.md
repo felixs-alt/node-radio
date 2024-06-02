@@ -4,28 +4,27 @@ nodejs PiFmRds wrapper with an interface to play songs over the radio at 97.0 GH
 ### THIS IS FOR THE RASPBERRY PI
 
 ## Requirments
----
-make:\
-`
+Make:
+```
 sudo apt-get update
 sudo apt-get install -y build-essential
-`
-nodejs:\
-`
+```
+Nodejs:
+```
 sudo apt update
 sudo apt install nodejs
 sudo apt install npm
-`
+```
 
 ## Install
-`
+```
 git clone https://github.com/felixs-alt/node-radio
 cd node-radio
 npm i
-`
+```
 ## Start
-`
-sudo npn start
-`
+```
+sudo npm run start
+```
 go to 
 http://localhost/
