@@ -4,7 +4,7 @@ const { execSync } = require('node:child_process');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = 80;
 
 const upload = require('./upload');
 
@@ -26,6 +26,6 @@ app.listen(PORT,
     async function (err) {
         if (err) console.log(err);
         console.log("Server listening on PORT", PORT);
-        execSync("make -C ./PiFmRds/src/")
-        await execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
+        await execSync("make -C ./PiFmRds/src/")
+        execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
     });
