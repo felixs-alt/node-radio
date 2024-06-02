@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "sudo node index.js",
-    "install": "npm i && make -C ./PiFmRds/src/"
+    "install": "make -C ./PiFmRds/src/"
   },
   "repository": {
     "type": "git",
