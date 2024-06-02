@@ -1,14 +1,14 @@
+import sudo from 'exec-root'
 
 const express = require('express');
 const app = express();
 const PORT = 3000;
 
-const { exec } = require('child_process');
 const path = require('path');
 const upload = require('./upload');
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-    exec("sudo ./PiFmRds/src/pi_fm_rds -freq 97.0 -audio upload/music.wav")
+    sudo.exec('./PiFmRds/src/pi_fm_rds -freq 97.0 -audio upload/music.wav')
     res.end("uploaded")
 })
 app.get('/', (req, res) => {
