@@ -1,5 +1,6 @@
 const express = require('express');
 const { execRoot } = require("admina")
+const { execSync } = require('node:child_process');
 const path = require('path');
 
 const app = express();
@@ -22,9 +23,9 @@ app.get('/', (req, res) => {
 app.use(express.static('upload'))
 
 app.listen(PORT,
-    function (err) {
+    async function (err) {
         if (err) console.log(err);
         console.log("Server listening on PORT", PORT);
-        execRoot("make -C ./PiFmRds/src/")
-        execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
+        execSync("make -C ./PiFmRds/src/")
+        await execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
     });
