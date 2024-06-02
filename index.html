@@ -3,13 +3,78 @@
     <title>radio controls</title>
   </head>
 <body>
+    <center>
     <p>Input WAV file</p>
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <input type="file" name="file" accept="audio/wav" required>
         <button type="submit">Upload</button>
     </form>
+    <div style="padding: 10px;"></div>
+    <button id="recordButton">Record Microphone</button>
+    <button id="uploadButton" disabled>Stop and upload to server</button>
+    <div id="output"></div>
+    <div style="padding: 20px;"></div>
     <form action="/reset" method="POST">
-        <button type="submit">Restart</button>
+        <button type="submit">Restart Radio</button>
     </form>
+    </center>
+    <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+    <script>
+                
+        let rec = null;
+        let audioStream = null;
+
+        const recordButton = document.getElementById("recordButton");
+        const uploadButton = document.getElementById("uploadButton");
+
+        recordButton.addEventListener("click", startRecording);
+        uploadButton.addEventListener("click", exportAudio);
+
+        function startRecording() {
+
+            let constraints = { audio: true, video:false }
+
+            recordButton.disabled = true;
+            uploadButton.disabled = false;
+
+            navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+                const audioContext = new window.AudioContext();
+                audioStream = stream;
+                const input = audioContext.createMediaStreamSource(stream);
+                rec = new Recorder(input, { numChannels: 1 })
+                rec.record()
+                document.getElementById("output").innerHTML = "Recording started..."
+            }).catch(function(err) {
+                recordButton.disabled = false;
+                uploadButton.disabled = true;
+                console.log(err)
+            });
+        }
+
+        function exportAudio() {
+            document.getElementById("output").innerHTML = "Converting audio to text..."
+            uploadButton.disabled = true;
+            recordButton.disabled = false;
+            rec.stop();
+            audioStream.getAudioTracks()[0].stop();
+            rec.exportWAV(uploadSoundData);
+        }
+
+        function uploadSoundData(blob) {
+            const filename = "sound-file-" + new Date().getTime() + ".wav";
+            const formData = new FormData();
+            formData.append("file", blob, filename);
+            
+            fetch('http://localhost:3000/upload', {
+                method: 'POST',
+                body: formData
+            }).then(async result => { 
+                document.getElementById("output").innerHTML = await result.text();
+            }).catch(error => { 
+                document.getElementById("output").innerHTML = "An error occurred: " + error;
+            })
+        }
+
+    </script>
 </body>
 </html>
