@@ -12,9 +12,9 @@ const upload = require('./upload');
 app.post('/upload', upload.single('file'), async (req, res) => {
     res.end("uploaded")
 })
-app.post('/reset', async (req, res) => {
-    res.end("restarted")
+app.post('/reset', (req, res) => {
     execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
+    res.end("restarted")
 })
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname,"index.html"));
