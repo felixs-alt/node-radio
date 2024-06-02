@@ -1,10 +1,10 @@
 {
   "name": "radio",
   "version": "1.0.0",
-  "description": "python radio",
+  "description": "raspberrypi radio",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.mjs",
     "install": "npm i"
   },
   "repository": {

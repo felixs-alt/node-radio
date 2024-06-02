@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-const { sudo } = require('exec-root');
 const path = require('path');
 const upload = require('./upload');
 
+
+
 app.post('/upload', upload.single('file'), async (req, res) => {
-    sudo.exec('./PiFmRds/src/pi_fm_rds -freq 97.0 -audio upload/music.wav')
     res.end("uploaded")
 })
 app.get('/', (req, res) => {
