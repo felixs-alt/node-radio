@@ -12,6 +12,7 @@ const upload = require('./upload');
 
 app.post('/upload', upload.single('file'), async (req, res) => {
     res.end("Uploaded Audio")
+    execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
 })
 app.post('/reset', (req, res) => {
     execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
@@ -26,6 +27,4 @@ app.listen(PORT,
     async function (err) {
         if (err) console.log(err);
         console.log("Server listening on PORT", PORT);
-        await execSync("make -C ./PiFmRds/src/")
-        execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
     });
