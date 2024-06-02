@@ -8,7 +8,7 @@ const path = require('path');
 const upload = require('./upload');
 
 app.post('/upload', upload.single('file'), async (req, res) => {
-    exec("sudo ./pi_fm_rds -freq 97.0 -audio upload/music.wav")
+    exec("sudo ./PiFmRds/src/pi_fm_rds -freq 97.0 -audio upload/music.wav")
     res.end("uploaded")
 })
 app.get('/', (req, res) => {
