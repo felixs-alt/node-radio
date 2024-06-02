@@ -5,12 +5,12 @@ nodejs PiFmRds wrapper with an interface to play songs over the radio at 97.0 GH
 
 ## Requirments
 ---
-make:
+make:\
 `
 sudo apt-get update
 sudo apt-get install -y build-essential
 `
-nodejs
+nodejs:\
 `
 sudo apt update
 sudo apt install nodejs
