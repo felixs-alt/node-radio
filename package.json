@@ -17,6 +17,7 @@
     "url": "https://github.com/felixs-alt/node-radio/issues"
   },
   "homepage": "https://github.com/felixs-alt/node-radio#readme",
+  "type": "module",
   "dependencies": {
     "exec-root": "^1.0.9",
     "express": "^4.19.2",
