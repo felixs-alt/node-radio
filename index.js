@@ -1,9 +1,8 @@
-import sudo from 'exec-root'
-
 const express = require('express');
 const app = express();
 const PORT = 3000;
 
+const { sudo } = require('exec-root');
 const path = require('path');
 const upload = require('./upload');
 
