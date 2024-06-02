@@ -11,9 +11,7 @@
     <button hidden id="recordButton">Record Microphone</button>
     <button hidden id="uploadButton" disabled>Stop and upload to server</button>
     <div id="output"></div>
-    <form action="/reset" method="POST">
-        <button type="submit">Restart Radio</button>
-    </form>
+    <button id="resetButton" type="submit">Restart Radio</button>
     </center>
     <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
     <script>
@@ -24,7 +22,9 @@
         const recordButton = document.getElementById("recordButton");
         const uploadButton = document.getElementById("uploadButton");
         const submitButton = document.getElementById("submitButton");
+        const resetButton = document.getElementById("resetButton");
 
+        resetButton.addEventListener("click", resetRadio);
         submitButton.addEventListener("click", getSoundData);
         recordButton.addEventListener("click", startRecording);
         uploadButton.addEventListener("click", exportAudio);
@@ -55,7 +55,7 @@
             uploadSoundData(document.getElementById("fileinput").files[0]);
         }
         function exportAudio() {
-            document.getElementById("output").innerHTML = "Converting audio to text..."
+            document.getElementById("output").innerHTML = "Uploading..."
             uploadButton.disabled = true;
             recordButton.disabled = false;
             rec.stop();
@@ -71,6 +71,15 @@
             fetch('/upload', {
                 method: 'POST',
                 body: formData
+            }).then(async result => { 
+                document.getElementById("output").innerHTML = await result.text();
+            }).catch(error => { 
+                document.getElementById("output").innerHTML = "An error occurred: " + error;
+            })
+        }
+        function resetRadio() {
+            fetch('/reset', {
+                method: 'POST',
             }).then(async result => { 
                 document.getElementById("output").innerHTML = await result.text();
             }).catch(error => { 
