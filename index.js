@@ -25,6 +25,6 @@ app.listen(PORT,
     function (err) {
         if (err) console.log(err);
         console.log("Server listening on PORT", PORT);
-        execRoot("-d ./PiFmRds/src/pi_fm_rds make")
+        execRoot("make -C ./PiFmRds/src/")
         execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
     });
