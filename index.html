@@ -5,15 +5,12 @@
 <body>
     <center>
     <p>Input WAV file</p>
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept="audio/wav" required>
-        <button type="submit">Upload</button>
-    </form>
+    <input type="file" name="file" id="fileinput" accept="audio/wav" required>
+    <button id="submitButton" type="submit">Upload</button>
     <div style="padding: 10px;"></div>
-    <button id="recordButton">Record Microphone</button>
-    <button id="uploadButton" disabled>Stop and upload to server</button>
+    <button hidden id="recordButton">Record Microphone</button>
+    <button hidden id="uploadButton" disabled>Stop and upload to server</button>
     <div id="output"></div>
-    <div style="padding: 20px;"></div>
     <form action="/reset" method="POST">
         <button type="submit">Restart Radio</button>
     </form>
@@ -26,9 +23,12 @@
 
         const recordButton = document.getElementById("recordButton");
         const uploadButton = document.getElementById("uploadButton");
+        const submitButton = document.getElementById("submitButton");
 
+        submitButton.addEventListener("click", getSoundData);
         recordButton.addEventListener("click", startRecording);
         uploadButton.addEventListener("click", exportAudio);
+
 
         function startRecording() {
 
@@ -36,7 +36,7 @@
 
             recordButton.disabled = true;
             uploadButton.disabled = false;
-
+            
             navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
                 const audioContext = new window.AudioContext();
                 audioStream = stream;
@@ -50,7 +50,10 @@
                 console.log(err)
             });
         }
-
+        function getSoundData() {
+            document.getElementById("output").innerHTML = "Uploading..."
+            uploadSoundData(document.getElementById("fileinput").files[0]);
+        }
         function exportAudio() {
             document.getElementById("output").innerHTML = "Converting audio to text..."
             uploadButton.disabled = true;
