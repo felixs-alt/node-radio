@@ -20,7 +20,7 @@ sudo apt install npm
 ```
 git clone https://github.com/felixs-alt/node-radio
 cd node-radio
-npm i
+npm run install
 ```
 ## Start
 ```
