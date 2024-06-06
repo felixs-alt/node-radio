@@ -4,8 +4,7 @@
   "description": "raspberrypi radio",
   "main": "index.js",
   "scripts": {
-    "start": "sudo node index.js",
-    "install": "make -C ./PiFmRds/src/"
+    "start": "sudo node index.js"
   },
   "repository": {
     "type": "git",
