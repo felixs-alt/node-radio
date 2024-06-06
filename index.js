@@ -1,6 +1,4 @@
 const express = require('express');
-const { execRoot } = require("admina")
-const { execSync } = require('node:child_process');
 const path = require('path');
 var radio = require('nodefm-rpi');
 
