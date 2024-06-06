@@ -2,20 +2,24 @@ const express = require('express');
 const { execRoot } = require("admina")
 const { execSync } = require('node:child_process');
 const path = require('path');
+var radio = require('nodefm-rpi');
 
 const app = express();
 const PORT = 80;
+
+var emitter = new radio("97.0");
+var radioStream = emitter.start();
 
 const upload = require('./upload');
 
 
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post('/upload', async (req, res) => {
     res.end("Uploaded Audio")
-    execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
+    var stream = new multipart.Stream(req).pipe(radioStream);
 })
 app.post('/reset', (req, res) => {
-    execRoot('./PiFmRds/src/pi_fm_rds',['-freq','97.0', '-audio', 'upload/music.wav'])
+    emitter.cleanGpio(7);
     res.end("Restarted Radio")
 })
 app.get('/', (req, res) => {
