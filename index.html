@@ -10,6 +10,9 @@
     <div style="padding: 10px;"></div>
     <button hidden id="recordButton">Record Microphone</button>
     <button hidden id="uploadButton" disabled>Stop and upload to server</button>
+    <hr style="height:1px;width:18%;color: #000;background-color:black">
+    <p>Input WAV file URL</p>
+    <input type="text" id="url" name="url"/><input id="urlButton" type="submit" value="OK" />
     <div id="output" style="margin-bottom: 10px; border: 1px solid;border-color: black;width: 18%;;"></div>
     <button id="resetButton" type="submit">Restart Radio</button>
     </center>
@@ -23,7 +26,9 @@
         const uploadButton = document.getElementById("uploadButton");
         const submitButton = document.getElementById("submitButton");
         const resetButton = document.getElementById("resetButton");
+        const urlButton = document.getElementById("urlButton");
 
+        urlButton.addEventListener("click", uploadUrl) 
         resetButton.addEventListener("click", resetRadio);
         submitButton.addEventListener("click", getSoundData);
         recordButton.addEventListener("click", startRecording);
@@ -80,6 +85,17 @@
         function resetRadio() {
             fetch('/reset', {
                 method: 'POST',
+            }).then(async result => { 
+                document.getElementById("output").innerHTML = await result.text();
+            }).catch(error => { 
+                document.getElementById("output").innerHTML = "An error occurred: " + error;
+            })
+        }
+        function uploadUrl() {
+            const url = document.getElementById("url").value
+            console.log(url)
+            fetch('/uploadurl?url='+url, {
+                method: 'GET'
             }).then(async result => { 
                 document.getElementById("output").innerHTML = await result.text();
             }).catch(error => { 

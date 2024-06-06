@@ -28,6 +28,13 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     bufferToStream(req.file.buffer).pipe(radioStream);
     res.send("Finished Uploading")
 })
+app.get('/uploadurl', async (req, res) => {
+    console.log(req.query.url)
+    const readableStream = await fetch(req.query.url).then(r => Readable.fromWeb(r.body));
+    var radioStream = emitter.start();
+    readableStream.pipe(radioStream)
+    res.send("Finished Uploading")
+})
 app.post('/reset', (req, res) => {
     emitter.cleanGpio(7);
     res.end("Restarted Radio")
