@@ -1,20 +1,34 @@
 const express = require('express');
 const path = require('path');
+const multer  = require('multer')
+const { Readable } = require('stream');
 var radio = require('nodefm-rpi');
 
 const app = express();
 const PORT = 80;
 
-var emitter = new radio("97.0");
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage, limits : {fileSize : 100000000}})
+
+var emitter = new radio("107");
 var radioStream = emitter.start();
 
-const upload = require('./upload');
+function bufferToStream(binary) {
 
+    const readableInstanceStream = new Readable({
+      read() {
+        this.push(binary);
+        this.push(null);
+      }
+    });
 
+    return readableInstanceStream;
+}
 
-app.post('/upload', async (req, res) => {
-    res.end("Uploaded Audio")
-    var stream = new multipart.Stream(req).pipe(radioStream);
+app.post('/upload', upload.single('file'), async (req, res) => {
+    console.log(req.file.buffer)
+    bufferToStream(req.file.buffer).pipe(radioStream);
+    res.send("Finished Uploading")
 })
 app.post('/reset', (req, res) => {
     emitter.cleanGpio(7);

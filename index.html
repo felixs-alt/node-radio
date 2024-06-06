@@ -65,10 +65,12 @@
 
         function uploadSoundData(blob) {
             const filename = "sound-file-" + new Date().getTime() + ".wav";
-            
+
+            const formData = new FormData();
+            formData.append("file", blob);
             fetch('/upload', {
                 method: 'POST',
-                body: blob
+                body: formData
             }).then(async result => { 
                 document.getElementById("output").innerHTML = await result.text();
             }).catch(error => { 
