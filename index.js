@@ -10,7 +10,7 @@ const PORT = 80;
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, limits : {fileSize : 100000000}})
 
-var emitter = new radio("107");
+var emitter = new radio("87");
 
 function bufferToStream(binary) {
 
