@@ -11,7 +11,6 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, limits : {fileSize : 100000000}})
 
 var emitter = new radio("107");
-var radioStream = emitter.start();
 
 function bufferToStream(binary) {
 
@@ -24,9 +23,8 @@ function bufferToStream(binary) {
 
     return readableInstanceStream;
 }
-
 app.post('/upload', upload.single('file'), async (req, res) => {
-    console.log(req.file.buffer)
+    var radioStream = emitter.start();
     bufferToStream(req.file.buffer).pipe(radioStream);
     res.send("Finished Uploading")
 })

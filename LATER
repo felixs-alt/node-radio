@@ -1,1 +1,0 @@
-        await execSync("make -C ./PiFmRds/src/")
