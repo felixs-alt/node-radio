@@ -5,7 +5,7 @@ const { Readable } = require('stream');
 var radio = require('nodefm-rpi');
 
 const app = express();
-const PORT = 80;
+const PORT = 3000;
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage, limits : {fileSize : 100000000}})
@@ -24,8 +24,10 @@ function bufferToStream(binary) {
     return readableInstanceStream;
 }
 app.post('/upload', upload.single('file'), async (req, res) => {
-    var radioStream = emitter.start();
-    bufferToStream(req.file.buffer).pipe(radioStream);
+    try {   
+        var radioStream = emitter.start();
+        bufferToStream(req.file.buffer).pipe(radioStream);
+    } catch (error) {res.send(error)}
     res.send("Finished Uploading")
 })
 app.get('/uploadurl', async (req, res) => {
