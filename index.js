@@ -28,7 +28,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         var radioStream = emitter.start();
         bufferToStream(req.file.buffer).pipe(radioStream);
     } catch (error) {res.send(error.message)}
-    res.send("Finished Uploading")
+    res.end("Finished Uploading")
 })
 app.get('/uploadurl', async (req, res) => {
     console.log(req.query.url)
@@ -36,7 +36,7 @@ app.get('/uploadurl', async (req, res) => {
         const readableStream = await fetch(req.query.url).then(r => Readable.fromWeb(r.body));
         var radioStream = emitter.start();
         readableStream.pipe(radioStream)
-    } catch (error) {res.send(error.message)}
+    } catch (error) {res.end(error.message)}
     res.send("Finished Uploading")
 })
 app.post('/reset', (req, res) => {
