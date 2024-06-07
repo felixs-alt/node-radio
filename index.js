@@ -27,8 +27,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     try {   
         var radioStream = emitter.start();
         bufferToStream(req.file.buffer).pipe(radioStream);
-    } catch (error) {res.send(error.message)}
-    res.end("Finished Uploading")
+    } catch (error) {return res.end(error.message)}
+    res.send("Finished Uploading")
 })
 app.get('/uploadurl', async (req, res) => {
     console.log(req.query.url)
