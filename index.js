@@ -36,7 +36,7 @@ app.get('/uploadurl', async (req, res) => {
         const readableStream = await fetch(req.query.url).then(r => Readable.fromWeb(r.body));
         var radioStream = emitter.start();
         readableStream.pipe(radioStream)
-    } catch (error) {res.end(error.message)}
+    } catch (error) {return res.end(error.message)}
     res.send("Finished Uploading")
 })
 app.post('/reset', (req, res) => {
